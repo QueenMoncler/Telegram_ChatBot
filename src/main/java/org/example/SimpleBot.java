@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -35,7 +36,8 @@ public class SimpleBot extends TelegramLongPollingBot {
         return this.botToken;
     }
 
-
+    public ReplyKeyboardMarkup replyKeyboardMarkup = new
+            ReplyKeyboardMarkup();
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
@@ -44,9 +46,8 @@ public class SimpleBot extends TelegramLongPollingBot {
                     sendMsg(message, "Это команда старт!");
                     System.out.println(message.getText());
                     break;
-                case "Команда 1":
-                    sendMsg(message, "Это команда 1");
-
+                case "Игра":
+                    sendMsg(message, "Игра Угадай число\nВведи набери от 0-10");
                     TelegramBotsApi telegramBotsApi = null;
                     try {
                         telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -57,7 +58,7 @@ public class SimpleBot extends TelegramLongPollingBot {
 
                     break;
 
-                case "Команда 2":
+                case "Эхо-бот":
                     sendMsg(message, "Это команда 2");
                     System.out.println(message.getText());
                     break;
@@ -72,10 +73,8 @@ public class SimpleBot extends TelegramLongPollingBot {
     public void sendMsg (Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-
         // Создаем клавиатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new
-                ReplyKeyboardMarkup();
+
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -88,8 +87,8 @@ public class SimpleBot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("Команда 1");
-        keyboardFirstRow.add("Команда 2");
+        keyboardFirstRow.add("Игра");
+        keyboardFirstRow.add("Эхо-бот");
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
