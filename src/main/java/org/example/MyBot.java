@@ -27,17 +27,21 @@ public class MyBot extends TelegramLongPollingBot {
         // Проверяем появление нового сообщения в чате, и если это текст
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message_text = update.getMessage().getText();            // Создаем переменную равную тексту присланного сообщения
-            String chat_id = update.getMessage().getChatId().toString();    // Создаем переменную равную ид чата присланного сообщения
+            String chat_id = update.getMessage().getChatId().toString();// Создаем переменную равную ид чата присланного сообщения
+
 
             SendMessage message = new SendMessage(); // Создаем обект-сообщение
             message.setChatId(chat_id);              // Передаем чат ид
             message.setText(message_text);           // Передаем эхо сообщение
 
             try {
+                System.out.println(update.getMessage().getChatId().toString());
                 execute(message);                   // Отправляем обект-сообщение пользователю
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 }
